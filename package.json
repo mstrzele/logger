@@ -1,6 +1,6 @@
 {
   "name": "logger",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Logger used in web app and landing",
   "main": "dist/main.js",
   "scripts": {

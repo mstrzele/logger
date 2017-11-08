@@ -2519,9 +2519,7 @@ exception.getTrace = function (err) {
 
 const winston = __webpack_require__(6);
 
-
 module.exports = createLogger();
-
 
 function createLogger() {
   const consoleTransport = new (winston.transports.Console)({
@@ -2536,40 +2534,27 @@ function createLogger() {
   return logger;
 };
 
-function timestamp() {
-  return Date.now();
-};
-
 function formatter(options) {
-  let { timestamp, level, message, meta } = options;
+  let { meta, level: level_name, message } = options;
 
   if (!message) {
     message = '';
   }
 
-  let log = {
-    message,
-    level,
-    timestamp: new Date()
-  };
-
-  if (isPojo(meta)) {
-    Object.assign(log, meta);
+  if (!meta) {
+    meta = {}
   }
 
-  log = JSON.stringify(log);
-  log = sanitizeLog(log);
+  // https://github.com/Seldaek/monolog/blob/master/doc/message-structure.md
+  let record = {
+    message,
+    level: winston.levels[level_name],
+    level_name
+  }
 
-  return log;
-};
+  Object.assign(record, meta);
 
-function isPojo(obj) {
-  return Object.prototype.toString.call(obj) === '[object Object]';
-};
-
-function sanitizeLog(log) {
-  // TODO: sanitize policy
-  return log;
+  return JSON.stringify(record);
 };
 
 
