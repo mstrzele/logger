@@ -22,14 +22,7 @@ function timestamp() {
 };
 
 function formatter(options) {
-  let { timestamp, level: severity, message, meta } = options;
-  let logTimestamp = timestamp();
-
-  let seconds = Math.floor(logTimestamp / 1000);
-  let milli = new Date(logTimestamp).getMilliseconds();
-  let nanos = 0;
-
-  let channel = 'not-defined';
+  let { timestamp, level, message, meta } = options;
 
   if (!message) {
     message = '';
@@ -37,9 +30,8 @@ function formatter(options) {
 
   let log = {
     message,
-    severity,
-    channel,
-    timestamp: { seconds, milli, nanos },
+    level,
+    timestamp: new Date()
   };
 
   if (isPojo(meta)) {
